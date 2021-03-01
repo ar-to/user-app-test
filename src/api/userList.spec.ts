@@ -1,0 +1,5 @@
+import axios from 'axios'
+
+it("renders without crashing", () => {
+  expect(2).toBe(2)
+});
