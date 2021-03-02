@@ -15,6 +15,6 @@ test('renders learn react link', () => {
   expect(getByText(/learn/i)).toBeInTheDocument();
 });
 
-it("renders without crashing", () => {
+it("renders App without crashing", () => {
   shallow(<App />);
 });
