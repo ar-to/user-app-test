@@ -7,6 +7,10 @@ import UserList from 'features/usersList';
 import UserForm from 'features/userForm';
 // CSS
 import 'primeflex/primeflex.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+ 
 
 function App() {
   return (
