@@ -1,7 +1,6 @@
 import axios from 'axios'
-// import { User, test } from 'features/usersList/types';
-import { User, groupsRef } from '../features/usersList/types';
-import { getUsersList } from './usersList'
+import { User, groupsRef } from '../../features/usersList/types';
+import { getUsersList } from 'api'
 
 jest.mock('axios');
 // @see https://stackoverflow.com/a/53204714/9270352
