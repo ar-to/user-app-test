@@ -17,7 +17,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <p>learn</p>
+        <h1>User List App</h1>
         <div className="p-grid">
           <div className="p-col">
             <UserList />

@@ -12,7 +12,7 @@ test('renders learn react link', () => {
     </Provider>
   );
 
-  expect(getByText(/learn/i)).toBeInTheDocument();
+  expect(getByText(/User List App/i)).toBeInTheDocument();
 });
 
 it("renders App without crashing", () => {

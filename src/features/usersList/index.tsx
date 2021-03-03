@@ -14,44 +14,19 @@ type Props = { userList?: User[] };
 
 export default function UsersList({ userList }: Props): JSX.Element {
   const dispatch = useDispatch();
+  // get users list from redux store
   const uslist = useSelector(selectUsersList);
-  const [text, setText] = React.useState('');
-  const [list, setList] = React.useState('');
   const [selectedCity, setSelectedCity] = React.useState(null);
 
-  console.log('s', uslist);
   useEffect(() => {
+    // fetch users list
     dispatch(getUsersListAsync());
-    // dispatch(ls([
-    //     {
-    //       id: 1,
-    //       name: 'Joe',
-    //       status: true,
-    //       features: ["read-only-lists"]
-    //     },
-    //   ]))
-  }, [list, dispatch]);
+  }, [dispatch]);
 
-  function handleChange(e: { target: HTMLInputElement }) {
-    setText(e.target.value);
-  }
-
-//   function setSelectedUser(e: { target: HTMLInputElement }) {
   function setSelectedUser(e: { originalEvent: Event; value: any; target: { name: string; id: string; value: any; }; }) {
     setSelectedCity(e.target.value)
     // update redux selected user
     // dispatch()
-  }
-
-  function handleSubmit(e: any) {
-    e.preventDefault();
-
-    if (!text.trim()) {
-      return;
-    }
-    // dispatch(addTodo(text))
-
-    setText('');
   }
 
   return (
