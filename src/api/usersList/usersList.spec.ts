@@ -24,7 +24,7 @@ describe("check users list", () => {
     mockedAxios.get.mockResolvedValue({
       data: mockUserslistData
     })
-    const res = await getUsersList("/users")
+    const res = await getUsersList("/api/users")
     expect(typeof(res)).toEqual(typeof([]))
     expect(res).toEqual(mockUserslistData)
     expect(res).toHaveLength(2)
