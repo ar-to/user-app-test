@@ -1,20 +1,45 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// import { AppThunk, AppDispatch } from 'app/store'
+import { RootState } from 'app/store';
 import { User } from 'features/usersList/types';
 
-const initialState : User | {} = {};
+interface UserFormState {
+  selectedUser: User;
+  form: User;
+}
 
-const usersListSlice = createSlice({
-    name: 'usersList',
-    initialState,
-    reducers: {
-        selectedUser(state, action: PayloadAction<User[]>) {
-            state = action.payload;
-        },
-    }
+const initialState: UserFormState = {
+  selectedUser: {
+    id: 0,
+    name: '',
+    status: false,
+  },
+  form: {
+    id: 0,
+    name: '',
+    status: false,
+  }
+};
+
+// const initialState: User | {} = {};
+
+const userFormSlice = createSlice({
+  name: 'userForm',
+  initialState,
+  reducers: {
+    setSelectedUser(state, action: PayloadAction<User>) {
+      state.selectedUser = action.payload;
+    },
+    setUserForm(state, action: PayloadAction<User>) {
+      state.form = action.payload;
+    },
+  },
 });
 
-export const { selectedUser } = usersListSlice.actions;
+export const { setSelectedUser, setUserForm } = userFormSlice.actions;
 
-export default usersListSlice.reducer;  
+// selectors
+export const userForm = (state: RootState) => state.userForm;
+export const selectedUser = (state: RootState) => state.userForm.selectedUser;
+
+export default userFormSlice.reducer;

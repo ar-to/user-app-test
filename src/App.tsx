@@ -1,6 +1,11 @@
 import React from 'react';
 // mock api
-import "@fake-db"
+import '@fake-db';
+// redux
+import { useSelector } from 'react-redux';
+import { selectUsersList } from 'features/usersList/usersListSlice';
+import { selectedUser } from 'features/userForm/userFormSlice';
+
 // UI
 // Components
 import UserList from 'features/usersList';
@@ -10,20 +15,20 @@ import 'primeflex/primeflex.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
- 
 
 function App() {
+  const usersList = useSelector(selectUsersList);
+  const activeUser = useSelector(selectedUser);
   return (
     <div className="App">
       <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <h1>User List App</h1>
         <div className="p-grid">
           <div className="p-col">
-            <UserList />
+            <UserList usersList={usersList.value} />
           </div>
           <div className="p-col">
-            <UserForm />
+            <UserForm user={activeUser}/>
           </div>
         </div>
       </header>

@@ -11,6 +11,8 @@ export let mockUserslistData:User[] = [
     id: 2,
     name: 'Tom',
     status: false,
+    groups: ["marketing", "engineering"],
+    features: ["read-only-lists"]
   }
 ]
 

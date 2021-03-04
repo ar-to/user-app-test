@@ -1,47 +1,47 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 // redux
 import { User } from 'features/usersList/types';
-import {
-  getUsersListAsync,
-  selectUsersList,
-  usersList as ls,
-} from 'features/usersList/usersListSlice';
+import { getUsersListAsync } from 'features/usersList/usersListSlice';
+import { setSelectedUser } from 'features/userForm/userFormSlice';
 // UI
 import { ListBox } from 'primereact/listbox';
 
-type Props = { userList?: User[] };
+type Props = { usersList?: User[] };
 
-export default function UsersList({ userList }: Props): JSX.Element {
+export default function UsersList({ usersList }: Props): JSX.Element {
   const dispatch = useDispatch();
-  // get users list from redux store
-  const uslist = useSelector(selectUsersList);
-  const [selectedCity, setSelectedCity] = React.useState(null);
+  const [listSelectedUser, setListSelectedUser] = React.useState(null);
 
   useEffect(() => {
     // fetch users list
     dispatch(getUsersListAsync());
   }, [dispatch]);
 
-  function setSelectedUser(e: { originalEvent: Event; value: any; target: { name: string; id: string; value: any; }; }) {
-    setSelectedCity(e.target.value)
+  function handleSelectedUser(e: {
+    originalEvent: Event;
+    value: any;
+    target: { name: string; id: string; value: any };
+  }) {
+    setListSelectedUser(e.target.value);
     // update redux selected user
-    // dispatch()
+    dispatch(setSelectedUser(e.target.value))
   }
 
   return (
     <>
-      <h1>Users List</h1>
+    <div className="p-p-4">
+      <h3>Users List</h3>
       <ul>
         <ListBox
-          value={selectedCity}
-          options={uslist.value}
-        //   onChange={(e) => setSelectedCity(e.value)}
-          onChange={setSelectedUser}
+          value={listSelectedUser}
+          options={usersList}
+          onChange={handleSelectedUser}
           optionLabel="name"
           style={{ width: '15rem' }}
         />
       </ul>
+    </div>
     </>
   );
 }
