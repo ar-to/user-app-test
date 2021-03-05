@@ -4,7 +4,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from 'app/store';
 
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import UserForm from 'features/userForm';
 
 // mock
@@ -20,7 +20,6 @@ describe('check user form conmpoent', () => {
     wrapper = mountWithProvider(<UserForm {...props} />)();
   });
   it('renders without crashing', () => {
-    // shallow(<UserForm />);
     mount(
       <Provider store={store}>
         <UserForm />
@@ -29,18 +28,12 @@ describe('check user form conmpoent', () => {
   });
 
   it('renders headers', () => {
-    // const wrapper = shallow(<UserForm />);
-    // const mountWithProvider = (children: any) => (storez = store) => {
-    //   return mount(<Provider store={storez}>{children}</Provider>);
-    // };
-    // const props = {};
-    // const wrapper = mountWithProvider(<UserForm {...props} />)();
+    // const wrapper = shallow(<UserForm />);//old-pre-redux
     expect(wrapper.exists()).toBe(true);
     const h1 = <h3>User Form</h3>;
     expect(wrapper.contains(h1)).toEqual(true);
   });
   it('renders label headers', () => {
-    // const wrapper = shallow(<UserForm />);
     const ID = <h5>ID</h5>;
     const Name = <h5>Name</h5>;
     const Status = <h5>Status</h5>;
@@ -54,7 +47,7 @@ describe('check user form conmpoent', () => {
   });
 
   it("accepts user props", () => {
-    // const wrapper = mount(<UserForm user={mockUserslistData[0]} />);//old
+    // const wrapper = mount(<UserForm user={mockUserslistData[0]} />);//old-pre-redux
     wrapper.setProps({ user: mockUserslistData[0] });
     expect(wrapper.props().user).toEqual(mockUserslistData[0]);
     // check groups is optional to render
@@ -72,7 +65,6 @@ describe('check user form conmpoent', () => {
       },
     ]
     wrapper.setProps({ user: mockUserslistData[0] });
-    // const wrapper = mount(<UserForm user={mockUserslistData[0]} />);
     const Groups = <h5>Groups</h5>;
     expect(wrapper.contains(Groups)).toEqual(true);
     expect(wrapper.props().user.groups).toEqual(mockUserslistData[0].groups);
@@ -90,9 +82,9 @@ describe('check user form conmpoent', () => {
         features: ["read-only-lists"]
       },
     ]
-    // const wrapper = mount(<UserForm user={mockUserslistData[0]} />);
     wrapper.setProps({ user: mockUserslistData[0] });
     const Features = <h5>Features</h5>;
     expect(wrapper.contains(Features)).toEqual(true);
   })
+  // need to simulate handleChange and test form validation against various scenarios
 });

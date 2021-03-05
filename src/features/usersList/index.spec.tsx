@@ -13,7 +13,7 @@ describe('check users list conmponent', () => {
     // shallow(<UserList />);
     mount(
       <Provider store={store}>
-        <UserList userList={mockUserslistData} />
+        <UserList usersList={mockUserslistData} />
       </Provider>
     );
   });
@@ -22,10 +22,10 @@ describe('check users list conmponent', () => {
     // const wrapper = shallow(<UserList />);
     const wrapper = mount(
       <Provider store={store}>
-        <UserList userList={mockUserslistData} />
+        <UserList usersList={mockUserslistData} />
       </Provider>
     );
-    const welcome = <h1>Users List</h1>;
+    const welcome = <h3>Users List</h3>;
     expect(wrapper.contains(welcome)).toEqual(true);
   });
 

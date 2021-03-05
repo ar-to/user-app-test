@@ -21,17 +21,17 @@ function App() {
   const activeUser = useSelector(selectedUser);
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header p-p-4">
         <h1>User List App</h1>
-        <div className="p-grid">
-          <div className="p-col">
-            <UserList usersList={usersList.value} />
-          </div>
-          <div className="p-col">
-            <UserForm user={activeUser}/>
-          </div>
-        </div>
       </header>
+      <div className="p-grid">
+        <div className="p-col">
+          <UserList usersList={usersList.value} />
+        </div>
+        <div className="p-col">
+          <UserForm user={activeUser} />
+        </div>
+      </div>
     </div>
   );
 }

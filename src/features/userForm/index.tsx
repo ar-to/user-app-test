@@ -1,16 +1,26 @@
 import React, { useEffect } from 'react';
 // redux
 import { useDispatch } from 'react-redux';
-import { User } from 'features/usersList/types';
+import { User, groupsRef, featuresRef } from 'features/usersList/types';
 import { updateUsersList } from 'features/usersList/usersListSlice';
-import { setSelectedUser } from 'features/userForm/userFormSlice';
+import {
+  setSelectedUser,
+  setUserForLaterProcessing,
+} from 'features/userForm/userFormSlice';
 // UI
 import { InputText } from 'primereact/inputtext';
 import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
-import { read } from 'fs';
+
+import _ from 'lodash';
 
 type Props = { user?: User };
+interface ValidationError {
+  name?: string;
+  status?: string;
+  groups?: string;
+  features?: string;
+}
 
 export default function UserForm({ user }: Props): JSX.Element {
   const dispatch = useDispatch();
@@ -20,60 +30,73 @@ export default function UserForm({ user }: Props): JSX.Element {
   const [groups, setGroups] = React.useState(JSON.stringify(['', '']));
   const [features, setFeatures] = React.useState(JSON.stringify(['', '']));
   const [temp, setTemp] = React.useState({});
-  const [submitted, setSubmitted] = React.useState({});
-  // const [temp, setTemp] = React.useState({
-  //   id: 0,
-  //   name: '',
-  //   status: false,
-  // });
+  const [
+    validationErrors,
+    setValidationErrors,
+  ] = React.useState<ValidationError>({
+    name: '',
+    status: '',
+    groups: '',
+    features: '',
+  });
   useEffect(() => {
-    // setName(user?.name || '');
-    // setStatus(user?.status || false);
-    // setGroups(JSON.stringify(user?.groups || ['', '']));
-    // setFeatures(JSON.stringify(user?.features || ['', '']));
-    // setTemp(user ? user : {});
-    console.log(
-      '..',
-      name,
-      '\ntemp',
-      temp,
-      '\nuse',
-      user,
-      '\nsubmitted',
-      submitted
-    );
-    // if (Object.keys(submitted).length !== 0) {
-    //   console.log('submitted');
-    //   setId(0);
-    //   setName('');
-    //   setStatus(false);
-    //   setGroups(JSON.stringify(['', '']));
-    //   setFeatures(JSON.stringify(['', '']));
-    //   setSubmitted({});
-    // } else if (Object.keys(temp).length === 0) {
+    // update the form with a new user only if there is no active user being updated
     if (Object.keys(temp).length === 0) {
-      console.log('yep\ntemp', temp, '\nuse', user);
       setId(user?.id || 0);
       setName(user?.name || '');
       setStatus(user?.status || false);
       setGroups(JSON.stringify(user?.groups || ['', '']));
       setFeatures(JSON.stringify(user?.features || ['', '']));
-    } else {
-      // if (Object.keys(temp).length !== 0) {
-      console.log('nope\ntemp', temp);
     }
   }, [user, name, status, groups, features, temp]);
 
-  function handleChange(e: { target: HTMLInputElement }) {
-    // setText(e.target.value);
-  }
-
   function setTempUser(userTemp: User | {}) {
-    // setText(e.target.value);
     setTemp(userTemp);
     if (Object.keys(temp).length !== 0) {
       setId(user ? user.id : 0);
     }
+  }
+
+  function handleChange(event: any) {
+    event.preventDefault();
+    const target = event.target as HTMLTextAreaElement;
+    const { name, value } = target;
+
+    switch (name) {
+      case 'name':
+        setValidationErrors({
+          name: value.length < 3 ? 'Full Name must be 3 characters long!' : '',
+        });
+        setName(value);
+        break;
+      case 'status':
+        setValidationErrors({
+          status: _.isBoolean(value) ? 'status needs to be selected!' : '',
+        });
+        setStatus(!status);
+        break;
+      case 'groups':
+        setValidationErrors({
+          groups: !_.includes(groupsRef, value)
+            ? 'groups should be part of the available groups list!'
+            : '',
+        });
+        setGroups(value);
+        break;
+      case 'features':
+        setValidationErrors({
+          groups: _.includes(featuresRef, value)
+            ? 'features should be part of the features list!'
+            : '',
+        });
+        setFeatures(value);
+        break;
+      default:
+        break;
+    }
+
+    // needed to track users being updated
+    setTempUser(user ? user : {}); //ensures input can be changed
   }
 
   function handleSubmit(e: any) {
@@ -86,17 +109,17 @@ export default function UserForm({ user }: Props): JSX.Element {
       groups: JSON.parse(groups),
       features: JSON.parse(features),
     };
-    console.log('sub..ready', ready);
 
     // reset temp so a new user can be updated
     setTemp({});
-    setSubmitted(ready);
-    console.log('sub-temp', temp);
 
     // update usersList with new user data per id to prepare for backend and simulate it
     // this could also be done via localstorage to ensure data persists upon reloads
     // further optimization can involve making this a progressive app that can work offline
     dispatch(updateUsersList(ready));
+    // optional: push each new updated user to redux for offline tracking to later send to backend for processing
+    dispatch(setUserForLaterProcessing(ready));
+    // reset the selected user
     dispatch(
       setSelectedUser({
         id: 0,
@@ -109,71 +132,62 @@ export default function UserForm({ user }: Props): JSX.Element {
   return (
     <div className="card p-p-4">
       <h3>User Form</h3>
-      <i>{user?.id || 'select a user'}</i>
       <form onSubmit={handleSubmit}>
         <h5>ID</h5>
         <i id="user-id">{id}</i>
-        {/* <i id="user-id">{id || user?.id}</i> */}
-        {/* <i id="user-id">{user?.id || 'select a user'}</i> */}
         <h5>Name</h5>
-        <div className="p-inputgroup">
-          <span className="p-inputgroup-addon">
-            <i className="pi pi-user"></i>
-          </span>
+        <div className="p-field">
           <InputText
+            id="name"
+            aria-describedby="name-help"
+            className="p-d-block"
             placeholder="name"
-            // value={name || user?.name}
             value={name}
-            // value={user?.name || name}
-            onChange={(e) => {
-              const target = e.target as HTMLTextAreaElement;
-              // console.log(JSON.parse(target.value));
-              // console.log(typeof target.value);
-              setName(target.value);
-              setTempUser(user ? user : {});
-              // prepareToSubmit({ name: target.value });
-            }}
+            onChange={handleChange}
+            name="name"
           />
+          <small id="name-help" className="p-error p-d-block">
+            {validationErrors.name}
+          </small>
         </div>
         <h5>Status</h5>
         <Checkbox
-          onChange={(e) => {
-            setStatus(!status);
-            setTempUser(user ? user : {});
-          }}
+          onChange={handleChange}
+          name="status"
           checked={status}
-          // checked={user?.status || status}
         ></Checkbox>
         <h5>Groups</h5>
-        <span className="p-float-label">
+        <div className="p-field">
+          <label htmlFor="groups">format: ["marketing","engineering"]</label>
           <InputText
-            id="in"
+            id="groups"
+            aria-describedby="groups-help"
+            className="p-d-block"
+            placeholder="groups"
             value={groups}
-            // value={user?.groups || groups}
-            onChange={(e) => {
-              const target = e.target as HTMLTextAreaElement;
-              // console.log(JSON.parse(target.value));
-              console.log(typeof target.value);
-              setGroups(target.value);
-            }}
+            onChange={handleChange}
+            name="groups"
           />
-          <label htmlFor="in">format: ["marketing","engineering"]</label>
-        </span>
+          <small id="groups-help" className="p-error p-d-block">
+            {validationErrors.groups}
+          </small>
+        </div>
         <h5>Features</h5>
-        <span className="p-float-label">
+        <div className="p-field">
+          <label htmlFor="features">format: ["read-only-lists"]</label>
           <InputText
-            id="in-feature"
+            id="features"
+            aria-describedby="features-help"
+            className="p-d-block"
+            placeholder="features"
             value={features}
-            // value={user?.features || features}
-            onChange={(e) => {
-              const target = e.target as HTMLTextAreaElement;
-              // console.log(JSON.parse(target.value));
-              // console.log(typeof target.value);
-              setFeatures(target.value);
-            }}
+            onChange={handleChange}
+            name="features"
           />
-          <label htmlFor="in-feature">format: ["read-only-lists"]</label>
-        </span>
+          <small id="features-help" className="p-error p-d-block">
+            {validationErrors.features}
+          </small>
+        </div>
         <div className="p-p-4">
           <Button
             type="submit"
