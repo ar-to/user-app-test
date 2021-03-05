@@ -76,19 +76,22 @@ export default function UserForm({ user }: Props): JSX.Element {
         setStatus(!status);
         break;
       case 'groups':
-        setValidationErrors({
-          groups: !_.includes(groupsRef, value)
-            ? 'groups should be part of the available groups list!'
-            : '',
-        });
+        // needs unit testing
+        // setValidationErrors({
+        //   groups: !_.includes(groupsRef, value)
+        //     ? 'groups should be part of the available groups list!'
+        //     : '',
+        // });
         setGroups(value);
         break;
       case 'features':
-        setValidationErrors({
-          groups: _.includes(featuresRef, value)
-            ? 'features should be part of the features list!'
-            : '',
-        });
+        
+        // needs unit testing
+        // setValidationErrors({
+        //   groups: _.includes(featuresRef, value)
+        //     ? 'features should be part of the features list!'
+        //     : '',
+        // });
         setFeatures(value);
         break;
       default:
