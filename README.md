@@ -1,3 +1,17 @@
+
+# About 
+
+This project was made to test out a few tools given a list and form UX/UI. The
+- react 17 - most recent version at the time of this app
+- redux-toolbox - standard way to use redux with less code. Uses a `src/features` directory structure.
+- jest - unit, integration, snapshot testing
+- enzyme - react component testing
+- [primereact](https://www.primefaces.org/primereact/showcase/#/)
+- uses a mock api server via [axios-mock-adapter](https://www.npmjs.com/package/axios-mock-adapter) 
+- UML diagram - software and architecture design. Found at `user-app-test/other/`.
+- Figma - UX prototype before development. Found at `user-app-test/other/`.
+# Getting Started
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
