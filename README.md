@@ -8,8 +8,8 @@ This project was made to test out a few tools given a list and form UX/UI. The
 - enzyme - react component testing
 - [primereact](https://www.primefaces.org/primereact/showcase/#/)
 - uses a mock api server via [axios-mock-adapter](https://www.npmjs.com/package/axios-mock-adapter) 
-- UML diagram - software and architecture design. Found at `user-app-test/other/`.
-- Figma - UX prototype before development. Found at `user-app-test/other/`.
+- UML diagram - software and architecture design. Found at `user-app-test/other/UserAppTest_Design_Structure.drawio`. Got to http://draw.io/ and import it.
+- Figma - UX prototype before development. Found at `user-app-test/other/User-App-TEST.fig`. Create an acount at https://www.figma.com/ and import this file.
 # Getting Started
 
 ```bash
