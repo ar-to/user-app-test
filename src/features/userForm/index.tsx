@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 // redux
 import { useDispatch } from 'react-redux';
-import { User, groupsRef, featuresRef } from 'features/usersList/types';
+import { User } from 'features/usersList/types';
 import { updateUsersList } from 'features/usersList/usersListSlice';
 import {
   setSelectedUser,
@@ -85,7 +85,7 @@ export default function UserForm({ user }: Props): JSX.Element {
         setGroups(value);
         break;
       case 'features':
-        
+
         // needs unit testing
         // setValidationErrors({
         //   groups: _.includes(featuresRef, value)
