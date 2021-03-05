@@ -12,6 +12,20 @@ This project was made to test out a few tools given a list and form UX/UI. The
 - Figma - UX prototype before development. Found at `user-app-test/other/`.
 # Getting Started
 
+```bash
+node --verion
+# v14.15.0
+
+# if not then
+nvm use 14
+
+npm install
+npm start
+
+# tests
+npm run test
+```
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
