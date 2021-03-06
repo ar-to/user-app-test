@@ -9,7 +9,7 @@ import { ListBox } from 'primereact/listbox';
 
 type Props = { usersList?: User[] };
 
-export default function UsersList({ usersList }: Props): JSX.Element {
+export default function UsersList({ usersList = [] }: Props): JSX.Element {
   const dispatch = useDispatch();
   const [listSelectedUser, setListSelectedUser] = React.useState(null);
 
@@ -25,23 +25,25 @@ export default function UsersList({ usersList }: Props): JSX.Element {
   }) {
     setListSelectedUser(e.target.value);
     // update redux selected user
-    dispatch(setSelectedUser(e.target.value))
+    dispatch(setSelectedUser(e.target.value));
   }
 
   return (
     <>
-    <div className="p-p-4">
-      <h3>Users List</h3>
-      <ul>
-        <ListBox
-          value={listSelectedUser}
-          options={usersList}
-          onChange={handleSelectedUser}
-          optionLabel="name"
-          style={{ width: '15rem' }}
-        />
-      </ul>
-    </div>
+      <div className="p-p-4">
+        <h3>Users List</h3>
+        <ul>
+          {usersList && (
+            <ListBox
+              value={listSelectedUser}
+              options={usersList}
+              onChange={handleSelectedUser}
+              optionLabel="name"
+              style={{ width: '15rem' }}
+            />
+          )}
+        </ul>
+      </div>
     </>
   );
 }

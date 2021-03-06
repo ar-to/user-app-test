@@ -28,6 +28,9 @@ npm run test
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
+**Known Issues**
+- jest snapshot test in the users list component throws a warning about a missing key in the props but after research and testing, a solution could not be found. Turned of this test until it can be solved. Updating the snapshot also throws weird syntax errors that do not show during development so this is also unclear. 
+
 ## Available Scripts
 
 In the project directory, you can run:
